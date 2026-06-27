@@ -58,6 +58,11 @@
         flex-wrap: wrap;
 
         .game-art {
+            &[data-broken="true"] {
+                opacity: 0.5;
+                pointer-events: none;
+            }
+
             fieldset {
                 background: #252525;
                 padding: 1rem;

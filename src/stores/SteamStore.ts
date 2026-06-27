@@ -15,10 +15,14 @@ export class SteamStore extends WebStore {
         const gameArts: GameArt[] = [];
         try {
             const images = [
+                'logo.png',
                 'logo_2x.png',
+                'header.jpg',
                 'header_2x.jpg',
+                'library_hero.jpg',
                 'library_hero_2x.jpg',
                 'library_hero_blur.jpg',
+                'library_600x900.jpg',
                 'library_600x900_2x.jpg',
                 'capsule_616x353.jpg',
                 'capsule_231x87.jpg',

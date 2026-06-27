@@ -240,10 +240,14 @@
 			const gameArts = [];
 			try {
 				const images = [
+					"logo.png",
 					"logo_2x.png",
+					"header.jpg",
 					"header_2x.jpg",
+					"library_hero.jpg",
 					"library_hero_2x.jpg",
 					"library_hero_blur.jpg",
+					"library_600x900.jpg",
 					"library_600x900_2x.jpg",
 					"capsule_616x353.jpg",
 					"capsule_231x87.jpg",
@@ -271,7 +275,7 @@
 			return url;
 		}
 	};
-	var main_default = ".game-art-downloader {\n    padding: 2rem 2rem 4rem;\n    margin: 0;\n    background-color: black;\n    color: white;\n    font-family: monospace;\n    font-size: 1rem;\n\n    a {\n        outline: none;\n        text-decoration: none;\n    }\n\n    &[data-store=\"xbox\"] {\n        --color-primary: #107c10;\n        --color-primary-content: #fff;\n    }\n\n    &[data-store=\"playstation\"] {\n        --color-primary: #003697;\n        --color-primary-content: #fff;\n    }\n\n    &[data-store=\"nintendo\"] {\n        --color-primary: #e60012;\n        --color-primary-content: #fff;\n    }\n\n    &[data-store=\"steam\"] {\n        --color-primary: #1a9fff;\n        --color-primary-content: #000;\n    }\n\n    &[data-store=\"gog\"] {\n        --color-primary: #da8bf0;\n        --color-primary-content: #000;\n    }\n\n    .header {\n        display: block;\n        font-size: 1.2rem;\n        font-weight: bold;\n        margin: 1rem;\n\n        a {\n            font-size: 0.75rem;\n            color: var(--color-primary);\n\n            &:hover {\n                text-decoration: underline;\n            }\n        }\n    }\n\n    .game-arts {\n        display: flex;\n        gap: 2rem;\n        flex-wrap: wrap;\n\n        .game-art {\n            fieldset {\n                background: #252525;\n                padding: 1rem;\n                border: 1px solid #393939;\n\n                legend {\n                    background: #363636;\n                    border: 1px solid #454545;\n                    color: white;\n                    padding: 0.125rem 0.375rem;\n                    margin: 0;\n                }\n\n                img {\n                    display: block;\n                    margin: 0 auto 1rem;\n                }\n\n                .links-container {\n                    margin-top: 0.5rem;\n                    display: flex;\n                    gap: 0.75rem;\n                    justify-content: center;\n\n                    a {\n                        color: white;\n                        background: black;\n                        padding: 0.125rem 0.625rem;\n\n                        &:hover {\n                            color: var(--color-primary-content);\n                            background-color: var(--color-primary);\n                        }\n                    }\n                }\n            }\n        }\n    }\n}\n";
+	var main_default = ".game-art-downloader {\n    padding: 2rem 2rem 4rem;\n    margin: 0;\n    background-color: black;\n    color: white;\n    font-family: monospace;\n    font-size: 1rem;\n\n    a {\n        outline: none;\n        text-decoration: none;\n    }\n\n    &[data-store=\"xbox\"] {\n        --color-primary: #107c10;\n        --color-primary-content: #fff;\n    }\n\n    &[data-store=\"playstation\"] {\n        --color-primary: #003697;\n        --color-primary-content: #fff;\n    }\n\n    &[data-store=\"nintendo\"] {\n        --color-primary: #e60012;\n        --color-primary-content: #fff;\n    }\n\n    &[data-store=\"steam\"] {\n        --color-primary: #1a9fff;\n        --color-primary-content: #000;\n    }\n\n    &[data-store=\"gog\"] {\n        --color-primary: #da8bf0;\n        --color-primary-content: #000;\n    }\n\n    .header {\n        display: block;\n        font-size: 1.2rem;\n        font-weight: bold;\n        margin: 1rem;\n\n        a {\n            font-size: 0.75rem;\n            color: var(--color-primary);\n\n            &:hover {\n                text-decoration: underline;\n            }\n        }\n    }\n\n    .game-arts {\n        display: flex;\n        gap: 2rem;\n        flex-wrap: wrap;\n\n        .game-art {\n            &[data-broken=\"true\"] {\n                opacity: 0.5;\n                pointer-events: none;\n            }\n\n            fieldset {\n                background: #252525;\n                padding: 1rem;\n                border: 1px solid #393939;\n\n                legend {\n                    background: #363636;\n                    border: 1px solid #454545;\n                    color: white;\n                    padding: 0.125rem 0.375rem;\n                    margin: 0;\n                }\n\n                img {\n                    display: block;\n                    margin: 0 auto 1rem;\n                }\n\n                .links-container {\n                    margin-top: 0.5rem;\n                    display: flex;\n                    gap: 0.75rem;\n                    justify-content: center;\n\n                    a {\n                        color: white;\n                        background: black;\n                        padding: 0.125rem 0.625rem;\n\n                        &:hover {\n                            color: var(--color-primary-content);\n                            background-color: var(--color-primary);\n                        }\n                    }\n                }\n            }\n        }\n    }\n}\n";
 	var CONFIGS = {
 		thumbnail: { width: 150 },
 		stores: {
@@ -330,7 +334,7 @@
 <div class="game-art">
     <fieldset>
         <legend>${escape(gameArt.purpose)}</legend>
-        <img width="${escape(CONFIGS.thumbnail.width)}" src="${escape(gameArt.thumb)}" />
+        <img width="${escape(CONFIGS.thumbnail.width)}" src="${escape(gameArt.thumb)}" onerror="gadOnImageError(this)" />
 
         <div class="links-container">${linksHtml}</div>
     </fieldset>
@@ -342,6 +346,10 @@
 		document.documentElement.append($container);
 		setTimeout(() => $container.scrollIntoView(false), 100);
 	}
+	window.gadOnImageError = ($img) => {
+		const $parent = $img.closest(".game-art");
+		$parent.dataset.broken = "true";
+	};
 	var $style = document.createElement("style");
 	$style.innerHTML = main_default;
 	document.documentElement.append($style);

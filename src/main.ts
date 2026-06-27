@@ -91,7 +91,7 @@ function renderGameArts(store: WebStore, gameArts: GameArt[]) {
 <div class="game-art">
     <fieldset>
         <legend>${escape(gameArt.purpose)}</legend>
-        <img width="${escape(CONFIGS.thumbnail.width)}" src="${escape(gameArt.thumb)}" />
+        <img width="${escape(CONFIGS.thumbnail.width)}" src="${escape(gameArt.thumb)}" onerror="gadOnImageError(this)" />
 
         <div class="links-container">${linksHtml}</div>
     </fieldset>
@@ -106,6 +106,12 @@ function renderGameArts(store: WebStore, gameArts: GameArt[]) {
     document.documentElement.append($container);
     setTimeout(() => $container.scrollIntoView(false), 100);
 }
+
+// Remove game art on broken image
+(window as any).gadOnImageError = ($img: HTMLImageElement) => {
+    const $parent = $img.closest('.game-art')! as HTMLElement;
+    $parent.dataset.broken = 'true';
+};
 
 // Inject CSS
 const $style = document.createElement('style');
